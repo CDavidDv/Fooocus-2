@@ -36,47 +36,59 @@ def remove_pattern(x, pattern):
 
 class FooocusExpansion:
     def __init__(self):
-        self.tokenizer = AutoTokenizer.from_pretrained(path_fooocus_expansion)
+        self.available = False
+        self.tokenizer = None
+        self.logits_bias = None
 
-        positive_words = open(os.path.join(path_fooocus_expansion, 'positive.txt'),
-                              encoding='utf-8').read().splitlines()
-        positive_words = ['Ġ' + x.lower() for x in positive_words if x != '']
+        try:
+            self.tokenizer = AutoTokenizer.from_pretrained(path_fooocus_expansion)
 
-        self.logits_bias = torch.zeros((1, len(self.tokenizer.vocab)), dtype=torch.float32) + neg_inf
+            positive_words = open(os.path.join(path_fooocus_expansion, 'positive.txt'),
+                                  encoding='utf-8').read().splitlines()
+            positive_words = ['Ġ' + x.lower() for x in positive_words if x != '']
 
-        debug_list = []
-        for k, v in self.tokenizer.vocab.items():
-            if k in positive_words:
-                self.logits_bias[0, v] = 0
+            self.logits_bias = torch.zeros((1, len(self.tokenizer.vocab)), dtype=torch.float32) + neg_inf
+
+            debug_list = []
+            for k, v in self.tokenizer.vocab.items():
+                if k in positive_words:
+                    self.logits_bias[0, v] = 0
                 debug_list.append(k[1:])
 
-        print(f'Fooocus V2 Expansion: Vocab with {len(debug_list)} words.')
+            print(f'Fooocus V2 Expansion: Vocab with {len(debug_list)} words.')
 
-        # debug_list = '\n'.join(sorted(debug_list))
-        # print(debug_list)
+            # debug_list = '\n'.join(sorted(debug_list))
+            # print(debug_list)
 
-        # t11 = self.tokenizer(',', return_tensors="np")
-        # t198 = self.tokenizer('\n', return_tensors="np")
-        # eos = self.tokenizer.eos_token_id
+            # t11 = self.tokenizer(',', return_tensors="np")
+            # t198 = self.tokenizer('\n', return_tensors="np")
+            # eos = self.tokenizer.eos_token_id
 
-        self.model = AutoModelForCausalLM.from_pretrained(path_fooocus_expansion)
-        self.model.eval()
+            self.model = AutoModelForCausalLM.from_pretrained(path_fooocus_expansion)
+            self.model.eval()
 
-        load_device = model_management.text_encoder_device()
-        offload_device = model_management.text_encoder_offload_device()
+            load_device = model_management.text_encoder_device()
+            offload_device = model_management.text_encoder_offload_device()
 
-        # MPS hack
-        if model_management.is_device_mps(load_device):
-            load_device = torch.device('cpu')
-            offload_device = torch.device('cpu')
+            # MPS hack
+            if model_management.is_device_mps(load_device):
+                load_device = torch.device('cpu')
+                offload_device = torch.device('cpu')
 
-        use_fp16 = model_management.should_use_fp16(device=load_device)
+            use_fp16 = model_management.should_use_fp16(device=load_device)
 
-        if use_fp16:
-            self.model.half()
+            if use_fp16:
+                self.model.half()
 
-        self.patcher = ModelPatcher(self.model, load_device=load_device, offload_device=offload_device)
-        print(f'Fooocus Expansion engine loaded for {load_device}, use_fp16 = {use_fp16}.')
+            self.patcher = ModelPatcher(self.model, load_device=load_device, offload_device=offload_device)
+            print(f'Fooocus Expansion engine loaded for {load_device}, use_fp16 = {use_fp16}.')
+
+            self.available = True
+
+        except Exception as e:
+            print(f'[WARNING] FooocusExpansion failed to load: {str(e)}')
+            print('[INFO] Fooocus will work without prompt expansion (optional feature)')
+            self.available = False
 
     @torch.no_grad()
     @torch.inference_mode()
@@ -95,6 +107,10 @@ class FooocusExpansion:
     def __call__(self, prompt, seed):
         if prompt == '':
             return ''
+
+        # Si FooocusExpansion no se cargó, retornar prompt sin expandir
+        if not self.available:
+            return prompt
 
         if self.patcher.current_device != self.patcher.load_device:
             print('Fooocus Expansion loaded by itself.')

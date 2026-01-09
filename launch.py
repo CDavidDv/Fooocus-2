@@ -106,21 +106,17 @@ def download_models(default_model, previous_default_models, checkpoint_downloads
     for file_name, url in vae_approx_filenames:
         load_file_from_url(url=url, model_dir=config.path_vae_approx, file_name=file_name)
 
-    # Descargar archivos necesarios para FooocusExpansion tokenizer
-    # El tokenizer necesita AMBOS: pytorch_model.bin y config.json
-
-    load_file_from_url(
-        url='https://huggingface.co/lllyasviel/misc/resolve/main/fooocus_expansion.bin',
-        model_dir=config.path_fooocus_expansion,
-        file_name='pytorch_model.bin'
-    )
-
-    # IMPORTANTE: Descargar config.json también
-    load_file_from_url(
-        url='https://huggingface.co/lllyasviel/misc/resolve/main/fooocus_expansion_config.json',
-        model_dir=config.path_fooocus_expansion,
-        file_name='config.json'
-    )
+    # Descargar FooocusExpansion (prompt expansion engine)
+    # Es opcional - si falla la descarga, Fooocus sigue funcionando sin expansión
+    try:
+        load_file_from_url(
+            url='https://huggingface.co/lllyasviel/misc/resolve/main/fooocus_expansion.bin',
+            model_dir=config.path_fooocus_expansion,
+            file_name='pytorch_model.bin'
+        )
+    except Exception as e:
+        print(f'[WARNING] FooocusExpansion download failed: {str(e)}')
+        print('[INFO] Fooocus will work without prompt expansion (optional feature)')
 
     if args.disable_preset_download:
         print('Skipped model download.')

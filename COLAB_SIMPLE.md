@@ -55,24 +55,31 @@ Ese es un enlace público que funciona desde cualquier lugar (computadora, table
 !python entry_with_update.py --preset default --always-low-vram --listen --share
 ```
 
-### Error: "ImportError: cannot import name 'IOComponent' from 'gradio.components.base'"
+### Error: "TypeError: duplicate base class" o "ImportError: cannot import name 'IOComponent'"
 
-Este error significa que Gradio 3.41.2 y 4.44.1 están en conflicto.
+Estos errores ocurren cuando hay conflicto entre Gradio 3.41.2 y 4.44.1.
 
-**Solución:**
+**NOTA:** La última versión de Fooocus ya soporta Gradio 4.44.1 automáticamente.
+
+**Si aún ves errores de Gradio:**
+
 ```python
-# Opción 1: Actualizar todo (RECOMENDADO)
-!pip uninstall gradio -y
-!pip install gradio==4.44.1
+# Paso 1: Actualiza el repositorio (obtén los fixes)
+!git clone https://github.com/tu-usuario/Fooocus.git Fooocus_new
+%cd Fooocus_new
 
-# Opción 2: Pasos individuales
+# Paso 2: Limpia Gradio completamente
 !pip uninstall gradio -y
 !pip cache purge
-!pip install --no-cache-dir gradio==4.44.1
-!python fooocus_colab_optimized.py  # El script ya lo hace automáticamente
+
+# Paso 3: Instala Gradio 4.44.1
+!pip install gradio==4.44.1
+
+# Paso 4: Ejecuta
+!python fooocus_colab_optimized.py
 ```
 
-**Ver:** `GRADIO_COMPATIBILITY_FIX.md` para más detalles técnicos.
+**Ver:** `GRADIO_COMPATIBILITY_FIX.md` para detalles técnicos.
 
 ### Error: "ModuleNotFoundError: insightface"
 

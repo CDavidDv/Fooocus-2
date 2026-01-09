@@ -23,6 +23,14 @@ if IS_COLAB:
         "-q"
     ], check=True)
 
+    # Actualizar Gradio a versión más reciente para mejor rendimiento
+    print("[COLAB] Actualizando Gradio a versión 4.44.1...")
+    subprocess.run([
+        sys.executable, "-m", "pip", "install", "--upgrade",
+        "gradio==4.44.1",
+        "-q"
+    ], check=True)
+
     # Usar más VRAM en Colab
     os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb=512'
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'

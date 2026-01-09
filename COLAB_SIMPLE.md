@@ -24,7 +24,8 @@
 ```
 [COLAB] Detectado entorno Google Colab
 [COLAB] Montando Google Drive...
-[COLAB] Instalando PyTorch...
+[COLAB] Instalando PyTorch y dependencias...
+[COLAB] Actualizando Gradio a versión 4.44.1...  ← IMPORTANTE para --share
 [COLAB] Iniciando Fooocus...
 Running on local URL:  http://127.0.0.1:7865
 Running on public URL: https://xxxxx.gradio.live  ← COPIA ESTE LINK
@@ -33,6 +34,8 @@ Running on public URL: https://xxxxx.gradio.live  ← COPIA ESTE LINK
 **¡Abre el link `https://xxxxx.gradio.live` en tu navegador!**
 
 Ese es un enlace público que funciona desde cualquier lugar (computadora, tablet, móvil, otro navegador, etc.).
+
+**Nota:** El script actualiza Gradio a versión 4.44.1 automáticamente para mejor rendimiento y soporte de `--share`.
 
 ---
 
@@ -58,12 +61,30 @@ Ese es un enlace público que funciona desde cualquier lugar (computadora, table
 !pip install -q insightface onnxruntime-gpu
 ```
 
-### No ves el link de Gradio
+### No ves el link de Gradio (Problema: "To create a public link, set `share=True` in `launch()`")
+
+Este error significa que la versión vieja de Gradio (3.41.2) no está pasando el flag `--share` correctamente.
+
+**Solución rápida:**
 
 ```python
-# Mira la salida de la celda anterior
-# Debería mostrar: "Running on public URL: https://..."
-# Si no, espera 30 segundos más
+# Celda 1: Fuerza actualizar Gradio
+!pip install --upgrade gradio==4.44.1
+
+# Celda 2: Ejecuta de nuevo
+!python fooocus_colab_optimized.py
+```
+
+Si aún no funciona:
+
+```python
+# Celda: Ejecuta directamente con --share
+!python entry_with_update.py --preset default --share --listen --always-high-vram --disable-server-log
+```
+
+**Espera 60-90 segundos** - la primera vez tarda porque descarga modelos. Deberías ver:
+```
+Running on public URL: https://xxxxx.gradio.live
 ```
 
 ---

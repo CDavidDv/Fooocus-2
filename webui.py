@@ -10,7 +10,21 @@ import modules.html
 import modules.async_worker as worker
 import modules.constants as constants
 import modules.flags as flags
-import modules.gradio_hijack as grh
+
+# Handle Gradio 3.x vs 4.x compatibility
+try:
+    GRADIO_MAJOR = int(gr.__version__.split('.')[0])
+except:
+    GRADIO_MAJOR = 3
+
+if GRADIO_MAJOR >= 4:
+    # Gradio 4.x: use native Image component
+    class GradioHijackCompat:
+        Image = gr.Image
+    grh = GradioHijackCompat()
+else:
+    # Gradio 3.x: use customized hijack module
+    import modules.gradio_hijack as grh
 import modules.style_sorter as style_sorter
 import modules.meta_parser
 import args_manager

@@ -50,23 +50,24 @@ Se han implementado 3 características para generar avatares digitales con face 
 
 ## 🚀 3 Formas de Empezar
 
-### Opción A: Google Colab (SIN GPU local)
+### Opción A: Google Colab (SIN GPU local, UI PÚBLICA)
 ```python
 !git clone https://github.com/tu-usuario/Fooocus.git
 %cd Fooocus
 !python fooocus_colab_optimized.py
 
 # ✅ Se hace todo automático
+# ✅ Genera enlace público gradio.live (funciona desde cualquier lugar)
 # ⏱️ Primera vez: ~10 min | Siguientes: <1 min
 ```
 
-### Opción B: Local Rápido
+### Opción B: Local Rápido (UI PÚBLICA)
 ```bash
-# Instalar dependencias para face swap
+# Instalar dependencias
 pip install insightface onnxruntime-gpu
 
-# Usar preset automático
-python entry_with_update.py --preset default
+# Usar preset automático + enlace público
+python entry_with_update.py --preset default --share
 ```
 
 ### Opción C: Batch Processing Completo

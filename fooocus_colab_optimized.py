@@ -58,10 +58,11 @@ def main():
         cmd = [
             sys.executable,
             "entry_with_update.py",
-            "--preset", "default",     # Usar preset que siempre existe
-            "--listen",                # Escuchar en la red
-            "--share",                 # Crear enlace gradio.live
-            "--always-high-vram",      # Máximo VRAM (Colab tiene mucho)
+            "--preset", "default",        # Usar preset que siempre existe
+            "--listen",                   # Escuchar en la red (0.0.0.0)
+            "--share",                    # Crear enlace público gradio.live
+            "--always-high-vram",         # Máximo VRAM (Colab tiene mucho)
+            "--disable-server-log",       # Menos spam en logs
         ]
 
         # Agregar rutas personalizadas si se desea

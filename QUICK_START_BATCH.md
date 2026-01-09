@@ -25,10 +25,13 @@ Para impaciantes: 3 características en 5 minutos
 ### Local (Windows/Linux)
 
 ```bash
-python entry_with_update.py --preset default
+python entry_with_update.py --preset default --share
 ```
 
-Descarga: Juggernaut automáticamente
+**Flags:**
+- `--preset default` - Usar Juggernaut (auto-descarga)
+- `--share` - Crear enlace público (gradio.live) para acceder desde cualquier lugar
+- `--listen` - Escuchar en la red (opcional, automático con --share)
 
 ---
 

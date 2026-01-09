@@ -14,7 +14,7 @@
 !pip install -q insightface onnxruntime-gpu
 ```
 
-### Celda 2: Ejecutar Fooocus
+### Celda 2: Ejecutar Fooocus (UI Pública)
 
 ```python
 !python fooocus_colab_optimized.py
@@ -26,10 +26,13 @@
 [COLAB] Montando Google Drive...
 [COLAB] Instalando PyTorch...
 [COLAB] Iniciando Fooocus...
-Running on public URL: https://xxxxx.gradio.live
+Running on local URL:  http://127.0.0.1:7865
+Running on public URL: https://xxxxx.gradio.live  ← COPIA ESTE LINK
 ```
 
-Copia el link `https://xxxxx.gradio.live` en el navegador.
+**¡Abre el link `https://xxxxx.gradio.live` en tu navegador!**
+
+Ese es un enlace público que funciona desde cualquier lugar (computadora, tablet, móvil, otro navegador, etc.).
 
 ---
 

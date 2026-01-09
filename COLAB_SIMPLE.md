@@ -55,6 +55,25 @@ Ese es un enlace público que funciona desde cualquier lugar (computadora, table
 !python entry_with_update.py --preset default --always-low-vram --listen --share
 ```
 
+### Error: "ImportError: cannot import name 'IOComponent' from 'gradio.components.base'"
+
+Este error significa que Gradio 3.41.2 y 4.44.1 están en conflicto.
+
+**Solución:**
+```python
+# Opción 1: Actualizar todo (RECOMENDADO)
+!pip uninstall gradio -y
+!pip install gradio==4.44.1
+
+# Opción 2: Pasos individuales
+!pip uninstall gradio -y
+!pip cache purge
+!pip install --no-cache-dir gradio==4.44.1
+!python fooocus_colab_optimized.py  # El script ya lo hace automáticamente
+```
+
+**Ver:** `GRADIO_COMPATIBILITY_FIX.md` para más detalles técnicos.
+
 ### Error: "ModuleNotFoundError: insightface"
 
 ```python

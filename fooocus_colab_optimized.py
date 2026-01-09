@@ -24,12 +24,28 @@ if IS_COLAB:
     ], check=True)
 
     # Actualizar Gradio a versión más reciente para mejor rendimiento
-    print("[COLAB] Actualizando Gradio a versión 4.44.1...")
+    print("[COLAB] Limpiando Gradio viejo (3.41.2)...")
     subprocess.run([
-        sys.executable, "-m", "pip", "install", "--upgrade",
-        "gradio==4.44.1",
-        "-q"
-    ], check=True)
+        sys.executable, "-m", "pip", "uninstall", "gradio", "-y"
+    ], check=False, capture_output=True)  # No fallar si no está instalado
+
+    print("[COLAB] Limpiando caché de pip...")
+    subprocess.run([
+        sys.executable, "-m", "pip", "cache", "purge"
+    ], check=False, capture_output=True)
+
+    print("[COLAB] Instalando Gradio 4.44.1 (nuevo, más rápido)...")
+    result = subprocess.run([
+        sys.executable, "-m", "pip", "install", "--no-cache-dir",
+        "gradio==4.44.1"
+    ])
+
+    if result.returncode != 0:
+        print("[WARNING] Gradio installation had issues, but continuing...")
+        print("[INFO] Si ves errores de Gradio, intenta:")
+        print("       !pip install --force-reinstall gradio==4.44.1")
+    else:
+        print("[COLAB] ✓ Gradio 4.44.1 instalado exitosamente")
 
     # Usar más VRAM en Colab
     os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb=512'
@@ -73,6 +89,11 @@ def main():
             "--disable-server-log",       # Menos spam en logs
         ]
 
+        # Agregar argumentos adicionales si se proporcionaron
+        # (e.g., !python fooocus_colab_optimized.py --some-flag value)
+        if len(sys.argv) > 1:
+            cmd.extend(sys.argv[1:])
+
         # Agregar rutas personalizadas si se desea
         # cmd.extend([
         #     "--external-working-path", models_dir,
@@ -85,6 +106,10 @@ def main():
             "entry_with_update.py",
             "--preset", "default"
         ]
+
+        # Agregar argumentos adicionales en local también
+        if len(sys.argv) > 1:
+            cmd.extend(sys.argv[1:])
 
     print(f"[INFO] Ejecutando: {' '.join(cmd)}")
     try:

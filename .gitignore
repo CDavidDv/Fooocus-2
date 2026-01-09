@@ -1,0 +1,86 @@
+# ========================================
+# MODELOS Y CACHÉS (PESADOS)
+# ========================================
+
+# Modelos descargados
+models/checkpoints/
+models/loras/
+models/embeddings/
+models/vae/
+models/vae_approx/
+models/upscale_models/
+models/inpaint/
+models/controlnet/
+models/clip_vision/
+models/prompt_expansion/
+
+# Cache y temporales
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Entorno virtual
+venv/
+ENV/
+env/
+fooocus_env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.env
+.env.local
+
+# Salidas y temporales
+outputs/
+batch_outputs/
+target_images/faceswapped/
+temp/
+.cache/
+*.tmp
+
+# Config local (no subir credenciales)
+config.txt
+config_modification_tutorial.txt
+user_path_config.txt
+auth.json
+
+# Archivos del usuario (no versionar)
+prompts.txt
+face_model.jpg
+batch_config.json
+
+# Colab
+.ipynb_checkpoints/
+
+# Sistema operativo
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+
+# Excepciones (incluir estos archivos aunque estén en las carpetas ignoradas)
+!models/.gitkeep
+!outputs/.gitkeep

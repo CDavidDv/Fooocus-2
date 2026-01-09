@@ -37,7 +37,7 @@ pip install -r requirements_versions.txt
 pip install insightface onnxruntime-gpu
 
 # 3. Usar preset Colab (auto-descarga modelos)
-python entry_with_update.py --preset colab
+python entry_with_update.py --preset default
 
 # O ejecutar batch processing
 python run_batch_processing.py
@@ -47,7 +47,7 @@ python run_batch_processing.py
 
 ### 1️⃣ Checkpoints Automáticos
 ```bash
-python entry_with_update.py --preset colab
+python entry_with_update.py --preset default
 # Auto-descarga: Juggernaut, Realistic, Anime (~25 GB)
 ```
 
@@ -169,7 +169,7 @@ pip install insightface onnxruntime-gpu
 
 ### "GPU out of memory"
 ```bash
-python entry_with_update.py --preset colab --always-low-vram
+python entry_with_update.py --preset default --always-low-vram
 ```
 
 Ver `BATCH_PROCESSING_GUIDE.md` para más troubleshooting.

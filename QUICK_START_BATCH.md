@@ -16,7 +16,7 @@ Para impaciantes: 3 características en 5 minutos
 
 **Que pasa automáticamente:**
 - ✅ Instala PyTorch
-- ✅ Descarga Juggernaut XL, Realistic, Anime
+- ✅ Descarga Juggernaut XL automáticamente
 - ✅ Monta Google Drive
 - ✅ Inicia Fooocus
 
@@ -25,10 +25,10 @@ Para impaciantes: 3 características en 5 minutos
 ### Local (Windows/Linux)
 
 ```bash
-python entry_with_update.py --preset colab
+python entry_with_update.py --preset default
 ```
 
-Descarga: Juggernaut + Realistic + Anime automáticamente
+Descarga: Juggernaut automáticamente
 
 ---
 

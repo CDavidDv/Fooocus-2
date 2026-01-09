@@ -53,14 +53,15 @@ def main():
     if IS_COLAB:
         models_dir, outputs_dir = setup_colab_environment()
 
-        # Comando para ejecutar Fooocus con preset colab
+        # Comando para ejecutar Fooocus con preset default
+        # (colab.json puede no estar en todas las instalaciones)
         cmd = [
             sys.executable,
             "entry_with_update.py",
-            "--preset", "colab",  # Usar el preset que creamos
-            "--listen",           # Escuchar en la red
-            "--share",            # Crear enlace gradio.live
-            "--always-high-vram", # Máximo VRAM (Colab tiene mucho)
+            "--preset", "default",     # Usar preset que siempre existe
+            "--listen",                # Escuchar en la red
+            "--share",                 # Crear enlace gradio.live
+            "--always-high-vram",      # Máximo VRAM (Colab tiene mucho)
         ]
 
         # Agregar rutas personalizadas si se desea
@@ -73,11 +74,15 @@ def main():
         cmd = [
             sys.executable,
             "entry_with_update.py",
-            "--preset", "colab"
+            "--preset", "default"
         ]
 
     print(f"[INFO] Ejecutando: {' '.join(cmd)}")
-    subprocess.run(cmd, check=True)
+    try:
+        subprocess.run(cmd, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"[ERROR] Fooocus terminó con código de error: {e.returncode}")
+        sys.exit(e.returncode)
 
 if __name__ == "__main__":
     main()

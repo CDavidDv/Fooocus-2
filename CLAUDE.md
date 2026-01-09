@@ -308,7 +308,7 @@ Files:
 Auto-downloads 3 models (8GB each) in ~5-7 minutes. No GitHub bloat, all in HF Hub.
 
 ```bash
-# Local: python entry_with_update.py --preset colab
+# Local: python entry_with_update.py --preset default
 # Colab: python fooocus_colab_optimized.py
 ```
 

@@ -6,7 +6,7 @@ Se han implementado 3 características para generar avatares digitales con face 
 
 ### ✅ Feature 1: Checkpoints Automáticos
 - **Solución:** Hugging Face Hub (gratuito, sin peso en GitHub)
-- **Uso:** `python entry_with_update.py --preset colab`
+- **Uso:** `python entry_with_update.py --preset default`
 - **Resultado:** 3 modelos auto-descargados en ~7 minutos
 
 ### ✅ Feature 2: Prompts TXT → Imágenes + Face Swap
@@ -66,7 +66,7 @@ Se han implementado 3 características para generar avatares digitales con face 
 pip install insightface onnxruntime-gpu
 
 # Usar preset automático
-python entry_with_update.py --preset colab
+python entry_with_update.py --preset default
 ```
 
 ### Opción C: Batch Processing Completo

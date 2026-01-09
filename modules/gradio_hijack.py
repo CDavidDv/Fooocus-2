@@ -18,18 +18,54 @@ from gradio_client.serializing import ImgSerializable
 from PIL import Image as _Image  # using _ to minimize namespace pollution
 
 from gradio import processing_utils, utils, Error
-from gradio.components.base import IOComponent, _Keywords, Block
-from gradio.deprecation import warn_style_method_deprecation
-from gradio.events import (
-    Changeable,
-    Clearable,
-    Editable,
-    EventListenerMethod,
-    Selectable,
-    Streamable,
-    Uploadable,
-)
-from gradio.interpretation import TokenInterpretable
+
+# Support both Gradio 3.x (IOComponent) and Gradio 4.x (Component)
+try:
+    # Gradio 4.x
+    from gradio.components.base import Component as IOComponent, _Keywords, Block
+except ImportError:
+    # Gradio 3.x
+    try:
+        from gradio.components.base import IOComponent, _Keywords, Block
+    except ImportError:
+        # Fallback for other versions
+        from gradio.components.base import Component as IOComponent
+        _Keywords = None
+        Block = None
+
+try:
+    from gradio.deprecation import warn_style_method_deprecation
+except ImportError:
+    # Fallback if deprecation module doesn't exist
+    def warn_style_method_deprecation():
+        pass
+
+# Support different Gradio versions for event imports
+try:
+    from gradio.events import (
+        Changeable,
+        Clearable,
+        Editable,
+        EventListenerMethod,
+        Selectable,
+        Streamable,
+        Uploadable,
+    )
+except ImportError:
+    # Fallback for different Gradio versions
+    Changeable = object
+    Clearable = object
+    Editable = object
+    EventListenerMethod = object
+    Selectable = object
+    Streamable = object
+    Uploadable = object
+
+try:
+    from gradio.interpretation import TokenInterpretable
+except ImportError:
+    # Fallback if TokenInterpretable doesn't exist
+    TokenInterpretable = object
 
 set_documentation_group("component")
 _Image.init()  # fixes https://github.com/gradio-app/gradio/issues/2843
